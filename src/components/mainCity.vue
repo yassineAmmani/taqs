@@ -2,8 +2,18 @@
   <div class="hello">
     <h1>{{ msg }} </h1>
     <h1>api: {{apiKey}}</h1>
-    hello again
    
+  </div>
+  <div >
+    <div>
+      <input
+       type="text"
+       class="search-bar"
+       placeholder="mdina ..."
+       v-model="search"
+       @keypress="getData">
+    </div>
+    
   </div>
 </template>
 
