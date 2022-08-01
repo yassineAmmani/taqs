@@ -1,16 +1,21 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <img alt="Vue logo" class="logo" src="./assets/logo.png">
+  <mainCity msg="this is the main city taqs components " :apiKey=key />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import mainCity from './components/mainCity.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    mainCity,
+  },
+  data() {
+    return {
+      key : '61944fd995ad0a170d84afd1b7ec348c'
+    }
+  },
 }
 </script>
 
@@ -22,5 +27,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.logo{
+  width: 200px;
+  height: 100%;
 }
 </style>
