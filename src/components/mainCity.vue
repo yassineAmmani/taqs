@@ -4,17 +4,7 @@
     <h1>api: {{apiKey}}</h1>
    
   </div>
-  <div >
-    <div>
-      <input
-       type="text"
-       class="search-bar"
-       placeholder="mdina ..."
-       v-model="search"
-       @keypress="getData">
-    </div>
-    
-  </div>
+
 </template>
 
 <script>
