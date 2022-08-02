@@ -2,9 +2,10 @@
   <div class="hello">
     <h1>{{ msg }} </h1>
     <h1>api: {{apiKey}}</h1>
-    <h1>good</h1>
-    <img src="./assets/lo.png" alt="logo error" srcset="">
-   
+    <h1>good je</h1>
+    <img src="../assets/lo.png" alt="logo error" >
+
+   <img alt="home" :src="imgUrl" class="home">
   </div>
 
 </template>
@@ -15,6 +16,11 @@ export default {
   props: {
     msg: String,
     apiKey: String
+  },
+  data(){
+         return{ 
+             imgUrl : new URL('../assets/lo.png', import.meta.url).href
+        }
   }
 }
 </script>
