@@ -3,9 +3,7 @@
     <h1>{{ msg }} </h1>
     <h1>api: {{apiKey}}</h1>
     <h1>good je</h1>
-    <img src="../assets/lo.png" alt="logo error" >
-
-   <img alt="home" :src="imgUrl" class="home">
+ 
   </div>
 
 </template>
@@ -19,7 +17,8 @@ export default {
   },
   data(){
          return{ 
-             imgUrl : new URL('../assets/lo.png', import.meta.url).href
+             imgUrl : new URL('../assets/lo.png', import.meta.url).href,
+             logoUrl : new URL('../assets/logo.png', import.meta.url).href
         }
   }
 }

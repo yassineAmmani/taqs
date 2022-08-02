@@ -1,5 +1,5 @@
 <template>
-  <img alt="Vue logo" class="logo" src="./assets/logo.png">
+  <img alt="home" :src="logoUrl" class="logo">
   <mainCity msg="this is the main city taqs components " :apiKey=key />
 </template>
 
@@ -13,6 +13,7 @@ export default {
   },
   data() {
     return {
+      logoUrl : new URL('./assets/logo.png', import.meta.url).href,
       key : '61944fd995ad0a170d84afd1b7ec348c'
     }
   },
