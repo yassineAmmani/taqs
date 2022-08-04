@@ -72,10 +72,7 @@ export default {
 
 
 <style scoped>
-  .logo{
-  width: 200px;
-  height: 100%;
-}
+
 
 #app1 {
   background-image: url('../assets/cold.jpg');
@@ -94,11 +91,14 @@ main {
 }
 .search-box {
   width: 100%;
+  align-items: center;
   margin-bottom: 30px;
 }
 .search-box .search-bar {
   display: block;
-  width: 100%;
+  width: 80%;
+  margin-right: 15px ;
+  margin-left: 20px;
   padding: 15px;
   
   color: #313131;

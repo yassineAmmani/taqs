@@ -30,6 +30,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 2px;
+  margin-right: 5px;
   
 }
 .logo{
