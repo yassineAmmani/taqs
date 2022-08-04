@@ -1,5 +1,5 @@
 <template>
-  <img alt="home" :src="logoUrl" class="logo">
+ 
   <mainCity msg="this is the main city taqs components " :apiKey=key />
   
 </template>
@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       logoUrl : new URL('./assets/logo.png', import.meta.url).href,
+      cold : new URL('./assets/cold.jpg', import.meta.url).href,
       key : '61944fd995ad0a170d84afd1b7ec348c'
     }
   },
@@ -28,7 +29,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 2px;
+  
 }
 .logo{
   width: 200px;
