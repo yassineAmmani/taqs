@@ -1,6 +1,7 @@
 <template>
   <img alt="home" :src="logoUrl" class="logo">
   <mainCity msg="this is the main city taqs components " :apiKey=key />
+  
 </template>
 
 <script>
