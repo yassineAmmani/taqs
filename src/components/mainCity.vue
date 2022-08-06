@@ -1,29 +1,34 @@
 <template>
   
-<div id="app1" :class="typeof weather.main != 'undefined' && weather.main.temp > 25 ? 'warm' : ''">
+<div id="app1" :class="typeof taqs.main != 'undefined' && taqs.main.temp > 25 ? 'warm' : ''">
   <main>
-    
+
       <div class="search-box">
+        
+        <span><tggl @click="ch"/> {{  lang  }}</span> 
         <input 
           type="text" 
           class="search-bar" 
           placeholder="Search..."
           v-model="query"
-          @keypress="fetchWeather"
+          @keypress="fetchTaqs"
         />
       </div>
      
 
-      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
+      <div class="weather-wrap" v-if="typeof taqs.main != 'undefined'">
         <div class="location-box">
-          <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
+          <div class="location">{{ taqs.name }}, {{ taqs.sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
         </div>
+       
 
         <div class="weather-box">
           
-          <div class="temp">{{ Math.round(weather.main.temp) }}°c</div>
-          <div class="weather">{{ weather.weather[0].main }}</div>
+          <div class="temp">{{ Math.round(taqs.main.temp) }}°c 
+            
+          </div>
+          <div class="weather"> {{taqsD}}</div>
         </div>
       </div>
     </main>
@@ -32,39 +37,68 @@
 </template>
 
 <script>
+  import tggl from './tggl.vue';
+  import en  from '../lang/en.js';
+  
+  import ar  from '../lang/ar.js';
+
 export default {
   name: 'app',
+  mixins: [en,ar],
+  
+  components: {
+    tggl,
+  },
   data () {
     return {
       api_key: '61944fd995ad0a170d84afd1b7ec348c',
       url_base: 'https://api.openweathermap.org/data/2.5/',
-        cold : new URL('../assets/cold.jpg', import.meta.url).href,
-
+      cold : new URL('../assets/cold.jpg', import.meta.url).href,
+      lang: 'ar',
+      taqsD: '',
+      taqsM:'',
+      checked : false,
       query: '',
-      weather: {}
+      taqs: {}
     }
   },
   methods: {
-    fetchWeather (e) {
+   ch(){
+      if (this.lang=='en'){
+        this.lang ='ar';
+      }
+      else  {
+        this.lang = 'en';
+      }
+
+    },
+   
+    
+    fetchTaqs (e) {
       if (e.key == "Enter") {
-        fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
+        fetch(`${this.url_base}weather?q=${this.query}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
       }
     },
     setResults (results) {
-      this.weather = results;
+      this.taqs = results;
+      this.taqsD = results.weather[0].description;
+      this.taqsM = results.weather[0].main;
     },
+
+   
+
     dateBuilder () {
       let d = new Date();
-      let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      let months = this[this.lang]['months'];
+      let days = this[this.lang]['days'];
       let day = days[d.getDay()];
       let date = d.getDate();
       let month = months[d.getMonth()];
       let year = d.getFullYear();
-      return `${day} ${date} ${month} ${year}`;
+      return `${day} ${date} ${month} ${year} `;
     }
   }
 }
@@ -83,6 +117,7 @@ export default {
 #app1.warm {
  background-image: url('../assets/warm.jpg');
 }
+
 
 main {
   min-height: 100vh;

@@ -1,13 +1,15 @@
 <template>
- 
+
   <mainCity msg="this is the main city taqs components " :apiKey=key />
   
 </template>
 
 <script>
-import mainCity from './components/mainCity.vue'
+import mainCity from './components/mainCity.vue';
+
 
 export default {
+
   name: 'App',
   components: {
     mainCity,
@@ -16,10 +18,12 @@ export default {
     return {
       logoUrl : new URL('./assets/logo.png', import.meta.url).href,
       cold : new URL('./assets/cold.jpg', import.meta.url).href,
-      key : '61944fd995ad0a170d84afd1b7ec348c'
+      key : '61944fd995ad0a170d84afd1b7ec348c',
+   
     }
   },
 }
+
 </script>
 
 <style>
