@@ -10,14 +10,13 @@
       @change="$emit('update:checked', $event.target.checked)"
     />
     <span class="switch"></span>
-    <span class="label" v-if="!checked2">{{ lang[this.checked2  ? 1 :0 ]}}</span>
   </label>
 
 </template>
 
 <script>
 export default {
-  name: "tggl-s",
+  name: "tggl-one",
   props: {
     label: {
       type: String,
@@ -28,19 +27,7 @@ export default {
       required: true,
     },
   },
-  data(){
-    return{
-      label2 : '',
-      lang: ['french','arabic'],
-      checked2: true
-    }
-  },
-  methods:{
-    ch(){
-      this.checked2 = !this.checked2
-      this.label2 = this.lang[this.checked2  ? 1 :0]
-    }
-  }
+
 
 }
 </script>
@@ -103,7 +90,7 @@ export default {
   /* Make the inner circle fully rounded */
   border-radius: 9999px;
   
-  background-image: url('../assets/french-flag.png');
+  background-image: url('../assets/morocco-flag.png');
   background-size: 120%;
   background-position-y: 50%;
   border: 0px solid var(--light-gray);
