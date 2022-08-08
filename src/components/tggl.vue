@@ -1,6 +1,5 @@
 <template>
   <label class="container">
-    <!-- <span class="label" v-if="checked2" >{{ label2 }}</span> -->
     <input
       v-bind="$attrs"
       class="input"

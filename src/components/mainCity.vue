@@ -100,6 +100,7 @@ export default {
       let year = d.getFullYear();
       return `${day} ${date} ${month} ${year} `;
     }
+
   }
 }
 </script>
@@ -173,7 +174,7 @@ main {
   display: inline-block;
   padding: 10px 25px;
   color: #FFF;
-  font-size: 102px;
+  font-size: calc(2vw + 2vh + 2vmin);;
   font-weight: 900;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
   background-color:rgba(255, 255, 255, 0.25);

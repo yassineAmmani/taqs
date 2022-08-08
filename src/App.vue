@@ -1,18 +1,19 @@
 <template>
-
+  <otherCities />
   <mainCity msg="this is the main city taqs components " :apiKey=key />
+  
   
 </template>
 
 <script>
 import mainCity from './components/mainCity.vue';
-
+import otherCities from './components/otherCities.vue';
 
 export default {
 
   name: 'App',
   components: {
-    mainCity,
+    mainCity,otherCities,
   },
   data() {
     return {
