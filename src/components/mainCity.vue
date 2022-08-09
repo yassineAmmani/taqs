@@ -3,16 +3,19 @@
 <div id="app1" :class="typeof taqs.main != 'undefined' && taqs.main.temp > 25 ? 'warm' : ''">
   <main>
 
-      <div class="search-box">
+      <div class="search-box"> 
         
-        <span><tggl @click="ch"/> {{  lang  }}</span> 
+        <span><tggl  @click="ch"/> {{  lang  }}
+         <button  @click="fetchTaqs()">search</button>{{temp}} </span> 
         <input 
           type="text" 
           class="search-bar" 
           placeholder="Search..."
           v-model="query"
-          @keypress="fetchTaqs"
+          @keypress="fetchTaqs" 
         />
+        <input type="button" value="sech" @click="ch" >
+        
       </div>
      
 
@@ -59,7 +62,8 @@ export default {
       taqsM:'',
       checked : false,
       query: '',
-      taqs: {}
+      taqs: {},
+      temp:'hi'
     }
   },
   methods: {
@@ -75,7 +79,7 @@ export default {
    
     
     fetchTaqs (e) {
-      if (e.key == "Enter") {
+      if (e.key == "Enter" || e.key == "Next") {
         fetch(`${this.url_base}weather?q=${this.query}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
@@ -114,6 +118,7 @@ export default {
   background-size: cover;
   background-position: bottom;
   transition: 0.4s;
+  ;
 }
 #app1.warm {
  background-image: url('../assets/warm.jpg');
