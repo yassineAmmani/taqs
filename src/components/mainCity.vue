@@ -11,8 +11,9 @@
           type="text" 
           class="search-bar" 
           placeholder="Search..."
-          v-model="query"
+          @input="event => query = event.target.value"
           @keypress="fetchTaqs" 
+          
         />
         <input type="button" value="sech" @click="ch" >
         
@@ -76,6 +77,7 @@ export default {
       }
 
     },
+ 
    
     
     fetchTaqs (e) {

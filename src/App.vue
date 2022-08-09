@@ -1,4 +1,6 @@
 <template>
+
+  
   <otherCities />
   <mainCity msg="this is the main city taqs components " :apiKey=key />
   
