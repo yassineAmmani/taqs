@@ -1,16 +1,17 @@
 <template>
-    <div class="container">
-  <div class="column" >
-    <mainCity  />
-  </div> 
-  
-  <div class="column" >
-    <mainCity  />
-  </div>
-  
-  <div class="column" >
-    <mainCity  />
-  </div>
+  <p>hello</p>
+  <div class="container">
+    <div class="column" >
+      <mainCity  />
+    </div> 
+    
+    <div class="column" >
+      <mainCity  />
+    </div>
+    
+    <div class="column" >
+      <mainCity  />
+    </div>
 </div>
 </template>
 <script>
@@ -23,16 +24,30 @@ export default {
 }
 </script>
 <style scoped>
+p{
+  background-color: blueviolet;
+  
+}
 .container {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 50%;
+ 
+  height: 75vw;
+  max-height: 550px;
 }
 
 .column {
+  overflow-y: hidden;
   flex: 1;
-  max-width: 33%;
+  
+  max-height: 100%;
+}
+
+@media screen and (max-width: 575.98px) {
+  .container{
+    height: 100vw;
+    max-height: 800px;
+  }
 }
 
 

@@ -189,4 +189,26 @@ main {
   font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
+
+@media (max-width: 575.98px) {
+ .search-box .search-bar {
+   margin: 0px;
+
+ }
+
+ .location-box .location {
+  
+  font-size: 22px;
+
+
+}
+.location-box .date {
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  text-align: center;
+}
+ 
+}
 </style>
