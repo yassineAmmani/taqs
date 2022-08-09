@@ -15,6 +15,7 @@
           @keypress="fetchTaqs" 
           
         />
+        {{query}}
         <input type="button" value="sech" @click="ch" >
         
       </div>
