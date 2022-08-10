@@ -5,8 +5,8 @@
 
       <div class="search-box"> 
         
-        <span><tggl  @click="ch"/> {{  lang  }}
-         <button  @click="fetchTaqs()">search</button>{{temp}} </span> 
+        <tggl  @click="ch" class="toggle" />
+         
         <input 
           type="text" 
           class="search-bar" 
@@ -15,8 +15,7 @@
           @keypress="fetchTaqs" 
           
         />
-        {{query}}
-        <input type="button" value="sech" @click="ch" >
+        <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
         
       </div>
      
@@ -65,7 +64,6 @@ export default {
       checked : false,
       query: '',
       taqs: {},
-      temp:'hi'
     }
   },
   methods: {
@@ -88,6 +86,12 @@ export default {
             return res.json();
           }).then(this.setResults);
       }
+    },
+     fetchTaqsMobile() {
+        fetch(`${this.url_base}weather?q=${this.query}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+          .then(res => {
+            return res.json();
+          }).then(this.setResults);
     },
     setResults (results) {
       this.taqs = results;
@@ -155,6 +159,17 @@ main {
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 0px 16px 0px 16px;
   transition: 0.4s;
+}
+.search-box .searchMobile{
+  color: #313131;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 17px;
+  background-color: rgba(200, 170, 228, 0.6);
+  border: none;
+ 
+  border-radius: 2px 6px 2px 6px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25);
 }
 .search-box .search-bar:focus {
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
