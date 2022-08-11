@@ -1,65 +1,46 @@
 <template>
-  
-<div id="app1" :class="typeof taqs[0].main != 'undefined' && taqs[0].main.temp > 25 ? 'warm' : ''">
-  <main>
-      points : {{ points }} {{this.$store.state.points}} or {{pt}}
-      <button @click="alfa">remove a point</button>
-      {{taqs[1]}}
-      <div class="search-box"> 
-        
-        <tggl  @click="ch" class="toggle" />
-         
-        <input 
-          type="text" 
-          class="search-bar" 
-          placeholder="Search..."
-          @input="event => query = event.target.value"
-          @keypress="fetchTaqs" 
-          
-        />
-        <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
-        
-      </div>
-     
 
-      <div class="weather-wrap" v-if="typeof taqs[0].main != 'undefined'">
+<div class="container" >
+  
+    <div class="column" v-for="Q in query" :key="Q" >
+      {{query2[0]}} {{query2[1]}}
+    <div id="app1" :class="typeof taqs.main != 'undefined' && taqs.main.temp > 25 ? 'warm' : ''">    
+    <main>
+      <div class="search-box"> 
+        <label for="" class="search-bar">{{ Q }}</label>
+      </div>
+      <div class="weather-wrap" v-if="typeof taqs.main != 'undefined'">
         <div class="location-box">
-          <div class="location">{{ taqs [0].name }}, {{ taqs[0].sys.country }}</div>
+          <div class="location">{{ taqs.name }}, {{ taqs.sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
         </div>
        
-
-        <div class="weather-box">
-          
-          <div class="temp">{{ Math.round(taqs[0].main.temp) }}°c 
-            
-          </div>
-          <div class="weather"> {{taqsD}}</div>
+        <div class="weather-box">   
+          <div class="temp">{{ Math.round(taqs.main.temp) }}°c</div>
+          <div class="weather"> {{ taqsD }} </div>
         </div>
       </div>
     </main>
     </div>
 
+    </div> 
+</div>
+
 </template>
 
 <script>
-  import tggl from './tggl.vue';
-  import en  from '../lang/en.js';
-  
-  import ar  from '../lang/ar.js';
-
-
-  import {  computed } from 'vue'
+   import {  computed } from 'vue'
 import { useStore } from 'vuex'
+
+  import en  from '../lang/en.js';
+  import ar  from '../lang/ar.js';
 
 export default {
   name: 'app',
   mixins: [en,ar],
-
-  
   
   components: {
-    tggl,
+    
   },
   data () {
     return {
@@ -70,72 +51,52 @@ export default {
       taqsD: '',
       taqsM:'',
       checked : false,
-      query: '',
-      
-      pt:8
+      query: ['taza','meknes','fes'],
+      taqs: {},
+      temp: 0
     }
   },
-  
-  setup() {
+
+    setup() {
 
     const store = useStore()
     
     const points = computed(() => store.state.points)
-    const taqs = computed(() => store.state.taqs)
+    var query2 =  computed(() => store.state.cities)
     const updatePoints = (p) => {
       store.commit('updatePoints', p)
     }
-    const updateCities = (p) => {
-      store.commit('updateCities', p)
-    }
-     const updateTaqs = (p) => {
-      store.commit('updateTaqs',
-         p,
-      );
-    }
     return { 
       points,
-      taqs,
-      updateTaqs,
-      updateCities ,
+      query2,
       updatePoints
     }
   },
-
-  methods: {
-   ch(){
-      if (this.lang=='en'){
-        this.lang ='ar';
-      }
-      else  {
-        this.lang = 'en';
-      }
-
-    },
-
-    alfa(){
-        this.pt = this.points
-    },
- 
-   
-     
-    fetchTaqs (e) {
-      if (e.key == "Enter" || e == "Mobile") {
-        fetch(`${this.url_base}weather?q=${this.query}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+  beforeMount(){
+       for(var i = 0 ; i<3; i++){
+        fetch(`${this.url_base}weather?q=${this.query[i]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
+          console.log(i);
+          this.temp= i;
+       }
+  },
+  methods: {
+    fetchTaqs (e) {
+      if (e.key == "Enter" || e.key == "Next") {
+        fetch(`${this.url_base}weather?q=${this.query[0]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+          .then(res => {
+            return res.json();
+          }).then(this.setResults);
+          
       }
-    },
-    fetchTaqsMobile() {
-       this.fetchTaqs("Mobile");
     },
     setResults (results) {
       this.taqs = results;
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
-      this.updateTaqs(results);
-      this.updateCities(this.query); 
+      console.log(this.temp);
     },
 
    
@@ -176,6 +137,31 @@ main {
   padding: 25px;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75));
 }
+
+.container {
+  display: flex;
+  flex-direction: row;
+ 
+  height: 75vw;
+  max-height: 550px;
+}
+
+.column {
+  overflow-y: hidden;
+  flex: 1;
+  
+  max-height: 100%;
+}
+
+@media screen and (max-width: 575.98px) {
+  .container{
+    height: 100vw;
+    max-height: 800px;
+  }
+}
+
+
+
 .search-box {
   width: 100%;
   align-items: center;

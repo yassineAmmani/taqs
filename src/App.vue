@@ -1,7 +1,13 @@
 <template>
 
   
-  <otherCities />
+<div>points: {{ points }}</div>
+    <button @click="updatePoints(1)">add a point</button>
+    <button @click="updatePoints(-1)">remove a point</button>
+
+
+
+  <otherC></otherC>
   <mainCity msg="this is the main city taqs components " :apiKey=key />
   
   
@@ -9,13 +15,13 @@
 
 <script>
 import mainCity from './components/mainCity.vue';
-import otherCities from './components/otherCities.vue';
+import otherC from './components/otherC.vue';
 
 export default {
 
   name: 'App',
   components: {
-    mainCity,otherCities,
+    mainCity,otherC,
   },
   data() {
     return {
@@ -25,6 +31,17 @@ export default {
    
     }
   },
+
+  methods: {
+    updatePoints(points) {
+      this.$store.commit('updatePoints', points)
+    }
+  },
+  computed: {
+    points() {
+      return this.$store.state.points
+    }
+  }
 }
 
 </script>
