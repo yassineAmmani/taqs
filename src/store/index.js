@@ -21,7 +21,7 @@ const store = createStore({
     },
     updateTaqs(state,payload){
         state.taqs[0] = payload  
-        
+        state.taqs[1] = payload
     }
   }
 })
