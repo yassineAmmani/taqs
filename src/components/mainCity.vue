@@ -4,7 +4,7 @@
   <main>
       points : {{ points }} {{this.$store.state.points}} or {{pt}}
       <button @click="alfa">remove a point</button>
-      {{taqs[1]}}
+      {{taqs[0]}}
       <div class="search-box"> 
         
         <tggl  @click="ch" class="toggle" />
