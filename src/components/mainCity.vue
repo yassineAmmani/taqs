@@ -2,7 +2,7 @@
   
 <div id="app1" :class="typeof taqs[0].main != 'undefined' && taqs[0].main.temp > 25 ? 'warm' : ''">
   <main>
-      points : {{ points }}  or {{pt}}
+      points : {{ points }} {{this.$store.state.points}} or {{pt}}
       <button @click="alfa">remove a point</button>
       {{taqs[0]}}
       <div class="search-box"> 
