@@ -18,7 +18,7 @@
           
         />
     
-        {{taqs[1]}} {{cities[cityNum]}} {{Tq}}
+        {{taqs[1]}} {{cities[cityNum]}} {{this.Tq}}
         <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
         <div  v-for="Q in num" :key="Q" > {{this.$store.state.cities[Q]}}</div>
       </div>
@@ -41,7 +41,7 @@
       </div>
     </main>
     </div>
-
+{{this.Tq}}
 </template>
 
 <script>
@@ -141,12 +141,14 @@ export default {
       }
     },
     fetchTaqsMobile() {
-      
        this.fetchTaqs("Mobile");
     },
     setResults (results) {
+      
       this.taqs = results;
+      console.log(this.Tq);
       this.Tq = results;
+      console.log(this.Tq);
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
       this.temp = [1,2];
