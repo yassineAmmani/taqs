@@ -4,7 +4,7 @@
   <main>
       points : {{ points }} {{this.$store.state.points}} or {{pt}}
       <button @click="alfa">remove a point</button>
-      {{taqs[0]}}
+      {{taqs[0]}} 
       <div class="search-box"> 
         
         <tggl  @click="ch" class="toggle" />
@@ -17,8 +17,9 @@
           @keypress="fetchTaqs" 
           
         />
+        {{taqs[1]}} {{this.$store.state. cities}}
         <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
-        
+        <div  v-for="Q in num" :key="Q" > {{this.$store.state. cities[Q]}}</div>
       </div>
      
 
@@ -70,16 +71,17 @@ export default {
       taqsD: '',
       taqsM:'',
       checked : false,
-      query: '',
       
-      pt:8
+      num:[0,1,2,3],
+      pt:8,
+      temp:{}
     }
   },
   
   setup() {
 
     const store = useStore()
-    
+    var query =  computed(() => store.state.cities)
     const points = computed(() => store.state.points)
     const taqs = computed(() => store.state.taqs)
     const updatePoints = (p) => {
@@ -96,6 +98,7 @@ export default {
     return { 
       points,
       taqs,
+      query,
       updateTaqs,
       updateCities ,
       updatePoints
@@ -134,7 +137,8 @@ export default {
       this.taqs = results;
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
-      this.updateTaqs(results);
+      this.temp = [1,2];
+      this.updateTaqs(this.temp);
       this.updateCities(this.query); 
     },
 

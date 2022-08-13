@@ -20,8 +20,8 @@ const store = createStore({
         state.cities =  [payload,'taza','meknes','fes']
     },
     updateTaqs(state,payload){
-        state.taqs[0] = payload  
-        state.taqs[1] = payload
+        state.taqs[0] = payload[0]  
+        state.taqs[1] = payload[1]
     }
   }
 })
