@@ -4,7 +4,7 @@
   <main>
       points : {{ points }} {{this.$store.state.points}} or {{pt}}
       <button @click="alfa">remove a point</button>
-      {{taqs[0]}} 
+      {{taqs[0]}} {{query}} {{taqs}}
       <div class="search-box"> 
         
         <tggl  @click="ch" class="toggle" />
@@ -13,13 +13,14 @@
           type="text" 
           class="search-bar" 
           placeholder="Search..."
-          @input="event => query = event.target.value"
+          @input="event => q = event.target.value"
           @keypress="fetchTaqs" 
           
         />
-        {{taqs[1]}} {{this.$store.state. cities}}
+    
+        {{taqs[1]}} {{cities[cityNum]}} {{Tq}}
         <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
-        <div  v-for="Q in num" :key="Q" > {{this.$store.state. cities[Q]}}</div>
+        <div  v-for="Q in num" :key="Q" > {{this.$store.state.cities[Q]}}</div>
       </div>
      
 
@@ -68,11 +69,13 @@ export default {
       url_base: 'https://api.openweathermap.org/data/2.5/',
       cold : new URL('../assets/cold.jpg', import.meta.url).href,
       lang: 'ar',
+      q:'tokyo',
       taqsD: '',
       taqsM:'',
       checked : false,
-      
+      cityNum:0,
       num:[0,1,2,3],
+      Tq: {},
       pt:8,
       temp:{}
     }
@@ -81,11 +84,15 @@ export default {
   setup() {
 
     const store = useStore()
-    var query =  computed(() => store.state.cities)
+    var query =  computed(() => store.state.query)
+     const cities = computed(() => store.state.cities)
     const points = computed(() => store.state.points)
     const taqs = computed(() => store.state.taqs)
     const updatePoints = (p) => {
       store.commit('updatePoints', p)
+    }
+    const updateQuery = (p) => {
+      store.commit('updateQuery', p)
     }
     const updateCities = (p) => {
       store.commit('updateCities', p)
@@ -97,8 +104,10 @@ export default {
     }
     return { 
       points,
+      cities,
       taqs,
       query,
+      updateQuery,
       updateTaqs,
       updateCities ,
       updatePoints
@@ -123,6 +132,7 @@ export default {
    
      
     fetchTaqs (e) {
+      this.$store.state.query = this.q;
       if (e.key == "Enter" || e == "Mobile") {
         fetch(`${this.url_base}weather?q=${this.query}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
           .then(res => {
@@ -131,14 +141,16 @@ export default {
       }
     },
     fetchTaqsMobile() {
+      
        this.fetchTaqs("Mobile");
     },
     setResults (results) {
       this.taqs = results;
+      this.Tq = results;
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
       this.temp = [1,2];
-      this.updateTaqs(this.temp);
+      this.updateTaqs(this.taqs);
       this.updateCities(this.query); 
     },
 
