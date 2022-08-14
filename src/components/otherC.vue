@@ -1,7 +1,7 @@
 <template>
 <div style="display:flex ; ">
     <div v-for='n in num' :key='n' style=" flex-direction:column; " >
-         <div id="app1" :class="typeof taqs[n].main != 'undefined' && taqs[n].main.temp >40  ? 'warm' : ''">
+         <div id="app1" :class="typeof taqs[n].main != 'undefined' && taqs[n].main.temp >25  ? 'warm' : ''">
   <main>
       <div class="search-box">      
         <input 
@@ -42,53 +42,11 @@
 </div>
 
 
-<div id="app1" :class="typeof taqs[this.cityNum].main != 'undefined' && taqs[this.cityNum].main.temp >40  ? 'warm' : ''">
-  <main>
-      <div class="search-box"> 
-        
-        <tggl  @click="ch" class="toggle" />
-         
-        <input 
-          type="text" 
-          class="search-bar" 
-          placeholder="Search..."
-          @input="event => {this.$store.state.query = event.target.value
-                            this.$store.state.cities[0] = event.target.value
-                            }"
-          @keypress="fetchTaqs" 
-          
-        />
-        {{cities}}++ {{this.$store.state.query}} 
-        <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
-        
-      </div>
-     
-
-      <div class="weather-wrap" v-if="typeof taqs[this.cityNum].main != 'undefined'">
-        <div class="location-box">
-          <div class="location">{{ taqs[this.cityNum].name }}, {{ taqs[this.cityNum].sys.country }}</div>
-          <div class="date">{{ dateBuilder() }}</div>
-        </div>
-       
-
-        <div class="weather-box">
-          
-          <div class="temp">{{ Math.round(taqs[this.cityNum].main.temp) }}°c 
-            
-          </div>
-          <div class="weather"> {{taqsD}}</div>
-        </div>
-      </div>
-    </main>
-    </div>
-
 </template>
 
 <script>
   import {  computed } from 'vue'
   import { useStore } from 'vuex'
-
-  import tggl from './tggl.vue';
 
   import en  from '../lang/en.js';
   import ar  from '../lang/ar.js';
@@ -99,11 +57,6 @@ export default {
   name: 'app',
   mixins: [en,ar],
 
-  
-  
-  components: {
-    tggl,
-  },
   data () {
     return {
       api_key: '61944fd995ad0a170d84afd1b7ec348c',

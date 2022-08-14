@@ -1,8 +1,6 @@
 <template>
-  
 <div id="app1" :class="typeof taqs[1].main != 'undefined' && taqs[1].main.temp >25  ? 'warm' : ''">
   <main>
-  
       <div class="search-box"> 
         
         <tggl  @click="ch" class="toggle" />
@@ -17,7 +15,6 @@
           @keypress="fetchTaqs" 
           
         />
-        {{this.$store.state.query}} 
         <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
         
       </div>
@@ -35,7 +32,7 @@
           <div class="temp">{{ Math.round(taqs[1].main.temp) }}°c 
             
           </div>
-          <div class="weather"> {{taqsD}}</div>
+          <div class="weather"> {{ taqs[1].weather[0].description }}</div>
         </div>
       </div>
     </main>
@@ -77,7 +74,7 @@ export default {
       q:'tokyo',
       cityNum:0,
       i:0,
-      num:[0,1,2,3],
+      num:[2,3,4],
       Tq: {},
       temp:{}
     }
@@ -126,22 +123,34 @@ export default {
     },
 
     fetchTaqsMobile() {
-      let a =this.i;
-      for(a = this.i; a<4 ;a++){
-        this.cityNum = a;
-   
-        this.fetchTaqs("Mobile"); 
-      }
+            this.fetchTaqs("Mobile")  
     },
     fetchTaqs (e) { 
-       
-      if (e.key == "Enter" || e == "Mobile") {
-        fetch(`${this.url_base}weather?q=${this.$store.state.cities[this.cityNum]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-          console.log(this.cityNum);     
+      let a =this.i;
+      this.cityNum = 0;
+      for(a = this.i; a<4 ;a++){
+           setTimeout( ()=>{
+              if (e.key == "Enter" || e == "Mobile") {
+                  fetch(`${this.url_base}weather?q=${this.$store.state.cities[this.cityNum]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+                    .then(res => {
+                      return res.json();
+                    }).then(this.setResults);
+                    this.cityNum = this.cityNum + 1;     
+                  }
+           },
+            this.delay(a)
+          )
       }
+
+      
+    },
+    delay(a){
+        if (a == 0) {
+          return 0
+        }else {
+          return a*1000
+        }
+
     },
 
     setResults (results) {
