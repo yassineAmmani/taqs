@@ -1,46 +1,72 @@
 <template>
-
 <div class="container" >
   
-    <div class="column" v-for="Q in query" :key="Q" >
-      {{query2[0]}} {{query2[1]}}
-    <div id="app1" :class="typeof taqs.main != 'undefined' && taqs.main.temp > 25 ? 'warm' : ''">    
-    <main>
-      <div class="search-box"> 
-        <label for="" class="search-bar">{{ Q }}</label>
+    <div class="column" v-for="Q in num" :key="Q"  >
+      {{this.cityNum}} {{Q}}
       </div>
-      <div class="weather-wrap" v-if="typeof taqs.main != 'undefined'">
+</div>
+  
+<div id="app1" :class="typeof taqs[this.cityNum].main != 'undefined' && taqs[this.cityNum].main.temp >40  ? 'warm' : ''">
+  <main>
+      <div class="search-box"> 
+        
+        <tggl  @click="ch" class="toggle" />
+         
+        <input 
+          type="text" 
+          class="search-bar" 
+          placeholder="Search..."
+          @input="event => {this.$store.state.query = event.target.value
+                            this.$store.state.cities[0] = event.target.value
+                            }"
+          @keypress="fetchTaqs" 
+          
+        />
+        {{cities}}++ {{this.$store.state.query}} 
+        <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
+        
+      </div>
+     
+
+      <div class="weather-wrap" v-if="typeof taqs[this.cityNum].main != 'undefined'">
         <div class="location-box">
-          <div class="location">{{ taqs.name }}, {{ taqs.sys.country }}</div>
+          <div class="location">{{ taqs[this.cityNum].name }}, {{ taqs[this.cityNum].sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
         </div>
        
-        <div class="weather-box">   
-          <div class="temp">{{ Math.round(taqs.main.temp) }}°c</div>
-          <div class="weather"> {{ taqsD }} </div>
+
+        <div class="weather-box">
+          
+          <div class="temp">{{ Math.round(taqs[this.cityNum].main.temp) }}°c 
+            
+          </div>
+          <div class="weather"> {{taqsD}}</div>
         </div>
       </div>
     </main>
     </div>
 
-    </div> 
-</div>
-
 </template>
 
 <script>
-   import {  computed } from 'vue'
-import { useStore } from 'vuex'
+  import {  computed } from 'vue'
+  import { useStore } from 'vuex'
+
+  import tggl from './tggl.vue';
 
   import en  from '../lang/en.js';
   import ar  from '../lang/ar.js';
 
+ 
+
 export default {
   name: 'app',
   mixins: [en,ar],
+
+  
   
   components: {
-    
+    tggl,
   },
   data () {
     return {
@@ -51,54 +77,106 @@ export default {
       taqsD: '',
       taqsM:'',
       checked : false,
-      query: ['taza','meknes','fes'],
-      taqs: {},
-      temp: 0
+      query: '',
+
+      q:'tokyo',
+      cityNum:0,
+      num:[0,1,2,3],
+      Tq: {},
+      temp:{}
     }
   },
-
-    setup() {
+  
+  setup() {
 
     const store = useStore()
-    
-    const points = computed(() => store.state.points)
-    var query2 =  computed(() => store.state.cities)
-    const updatePoints = (p) => {
-      store.commit('updatePoints', p)
+    var query3 =  computed(() => store.state.query)
+    const cities = computed(() => store.state.cities)
+    const taqs = computed(() => store.state.taqs)
+   const taqs2 = computed(() => store.state.taqs2)
+
+    const updateQuery = (p) => {
+      store.commit('updateQuery', p)
+    }
+    const updateCities = (p) => {
+      store.commit('updateCities', p)
+    }
+     const updateTaqs = (p) => {
+      store.commit('updateTaqs', p,)
+    }
+    const updateTaqs2 = (p) => {
+      store.commit('updateTaqs', p,)
     }
     return { 
-      points,
-      query2,
-      updatePoints
+      query3,
+      cities,
+      taqs,
+      taqs2,
+      updateQuery,
+      updateCities,
+      updateTaqs,
+      updateTaqs2,
     }
   },
-  beforeMount(){
-       for(var i = 0 ; i<3; i++){
-        fetch(`${this.url_base}weather?q=${this.query[i]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-          console.log(i);
-          this.temp= i;
-       }
-  },
+
   methods: {
-    fetchTaqs (e) {
-      if (e.key == "Enter" || e.key == "Next") {
-        fetch(`${this.url_base}weather?q=${this.query[0]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-          
+   ch(){
+      if (this.lang=='en'){
+        this.lang ='ar';
+      }
+      else  {
+        this.lang = 'en';
       }
     },
+
+    fetchTaqsMobile() {
+       this.fetchTaqs("Mobile");
+    },
+    fetchTaqs (e) {
+      if (e.key == "Enter" || e == "Mobile") {
+        fetch(`${this.url_base}weather?q=${this.$store.state.cities[this.cityNum]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+          .then(res => {
+            return res.json();
+          }).then(this.setResults);
+      }
+    },
+
+    
+
+    fetchTaqs2 (e) {
+      if (e.key == "Enter" || e == "Mobile") {
+        fetch(`${this.url_base}weather?q=${this.$store.state.cities[0]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+          .then(res => {
+            return res.json();
+          }).then(this.setResults);
+      }
+    },
+    
+
     setResults (results) {
       this.taqs = results;
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
-      console.log(this.temp);
+       this.$store.state.taqs[this.cityNum] = results; 
+      if(this.cityNum == 0){
+        this.updateCities(this.$store.state.query); 
+      }
     },
 
+    setResults2 (results) {
+      
+      this.taqs = results;
+      console.log(this.Tq);
+      this.Tq = results;
+      console.log(this.Tq);
+      this.taqsD = results.weather[0].description;
+      this.taqsM = results.weather[0].main;
+      this.temp = [1,2];
+     
+      if(this.cityNum != 0){
+        this.updateCities(this.query);
+      } 
+    },
    
 
     dateBuilder () {
@@ -137,31 +215,6 @@ main {
   padding: 25px;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75));
 }
-
-.container {
-  display: flex;
-  flex-direction: row;
- 
-  height: 75vw;
-  max-height: 550px;
-}
-
-.column {
-  overflow-y: hidden;
-  flex: 1;
-  
-  max-height: 100%;
-}
-
-@media screen and (max-width: 575.98px) {
-  .container{
-    height: 100vw;
-    max-height: 800px;
-  }
-}
-
-
-
 .search-box {
   width: 100%;
   align-items: center;

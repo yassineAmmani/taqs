@@ -5,8 +5,14 @@
     <button @click="updatePoints(1)">add a point</button>
     <button @click="updatePoints(-1)">remove a point</button>
 
-
-
+      {{this.$store.state.taqs[0]}}
+      <br> 
+      {{this.$store.state.taqs[1]}}
+      <br>
+      {{this.$store.state.taqs[2]}}
+      <br>
+      {{this.$store.state.taqs[3]}}
+      <br>
   <otherC></otherC>
   <mainCity msg="this is the main city taqs components " :apiKey=key />
   

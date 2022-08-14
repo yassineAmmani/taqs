@@ -8,10 +8,12 @@ const store = createStore({
     taqsM:'',
     query: 'agadir',
     cities: ['','taza','meknes','fes'],
-    taqs: {0: '1', 1:'2'
-
-    },
-   
+    taqs: {0: '1',
+           1: '2',
+           2: '3',
+           3: '4',
+          },
+    taqs2: {},
   },
   mutations: {
     updatePoints(state, payload) {
@@ -27,7 +29,13 @@ const store = createStore({
     updateTaqs(state,payload){
         state.taqs[0] = payload  
         state.taqs[1] = payload
-    }
+        state.taqs[2] = payload
+        state.taqs[3] = payload
+    },
+    updateTaqs2(state,payload){
+      state.taqs[0] = payload  
+      state.taqs[1] = payload
+  }
   }
 })
 

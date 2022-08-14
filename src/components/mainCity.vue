@@ -1,10 +1,11 @@
 <template>
   
-<div id="app1" :class="typeof taqs[0].main != 'undefined' && taqs[0].main.temp > 25 ? 'warm' : ''">
+<div id="app1" :class="typeof taqs[this.cityNum].main != 'undefined' && taqs[this.cityNum].main.temp >40  ? 'warm' : ''">
   <main>
-      points : {{ points }} {{this.$store.state.points}} or {{pt}}
-      <button @click="alfa">remove a point</button>
-      {{taqs[0]}} {{query}} {{taqs}}
+     
+      {{taqs[1]}}
+      <br/>
+      {{cities[this.cityNum]}}
       <div class="search-box"> 
         
         <tggl  @click="ch" class="toggle" />
@@ -13,27 +14,28 @@
           type="text" 
           class="search-bar" 
           placeholder="Search..."
-          @input="event => q = event.target.value"
+          @input="event => {this.$store.state.query = event.target.value
+                            this.$store.state.cities[0] = event.target.value
+                            }"
           @keypress="fetchTaqs" 
           
         />
-    
-        {{taqs[1]}} {{cities[cityNum]}} {{this.Tq}}
+        {{cities}}++ {{this.$store.state.query}} 
         <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
-        <div  v-for="Q in num" :key="Q" > {{this.$store.state.cities[Q]}}</div>
+        
       </div>
      
 
-      <div class="weather-wrap" v-if="typeof taqs[0].main != 'undefined'">
+      <div class="weather-wrap" v-if="typeof taqs[this.cityNum].main != 'undefined'">
         <div class="location-box">
-          <div class="location">{{ taqs [0].name }}, {{ taqs[0].sys.country }}</div>
+          <div class="location">{{ taqs[this.cityNum].name }}, {{ taqs[this.cityNum].sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
         </div>
        
 
         <div class="weather-box">
           
-          <div class="temp">{{ Math.round(taqs[0].main.temp) }}°c 
+          <div class="temp">{{ Math.round(taqs[this.cityNum].main.temp) }}°c 
             
           </div>
           <div class="weather"> {{taqsD}}</div>
@@ -41,18 +43,19 @@
       </div>
     </main>
     </div>
-{{this.Tq}}
+
 </template>
 
 <script>
+  import {  computed } from 'vue'
+  import { useStore } from 'vuex'
+
   import tggl from './tggl.vue';
+
   import en  from '../lang/en.js';
-  
   import ar  from '../lang/ar.js';
 
-
-  import {  computed } from 'vue'
-import { useStore } from 'vuex'
+ 
 
 export default {
   name: 'app',
@@ -69,14 +72,15 @@ export default {
       url_base: 'https://api.openweathermap.org/data/2.5/',
       cold : new URL('../assets/cold.jpg', import.meta.url).href,
       lang: 'ar',
-      q:'tokyo',
       taqsD: '',
       taqsM:'',
       checked : false,
+      query: '',
+
+      q:'tokyo',
       cityNum:0,
       num:[0,1,2,3],
       Tq: {},
-      pt:8,
       temp:{}
     }
   },
@@ -84,13 +88,11 @@ export default {
   setup() {
 
     const store = useStore()
-    var query =  computed(() => store.state.query)
-     const cities = computed(() => store.state.cities)
-    const points = computed(() => store.state.points)
+    var query3 =  computed(() => store.state.query)
+    const cities = computed(() => store.state.cities)
     const taqs = computed(() => store.state.taqs)
-    const updatePoints = (p) => {
-      store.commit('updatePoints', p)
-    }
+   const taqs2 = computed(() => store.state.taqs2)
+
     const updateQuery = (p) => {
       store.commit('updateQuery', p)
     }
@@ -98,19 +100,20 @@ export default {
       store.commit('updateCities', p)
     }
      const updateTaqs = (p) => {
-      store.commit('updateTaqs',
-         p,
-      );
+      store.commit('updateTaqs', p,)
+    }
+    const updateTaqs2 = (p) => {
+      store.commit('updateTaqs', p,)
     }
     return { 
-      points,
+      query3,
       cities,
       taqs,
-      query,
+      taqs2,
       updateQuery,
+      updateCities,
       updateTaqs,
-      updateCities ,
-      updatePoints
+      updateTaqs2,
     }
   },
 
@@ -122,42 +125,30 @@ export default {
       else  {
         this.lang = 'en';
       }
-
     },
 
-    alfa(){
-        this.pt = this.points
+    fetchTaqsMobile() {
+       this.fetchTaqs("Mobile");
     },
- 
-   
-     
     fetchTaqs (e) {
-      this.$store.state.query = this.q;
       if (e.key == "Enter" || e == "Mobile") {
-        fetch(`${this.url_base}weather?q=${this.query}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+        fetch(`${this.url_base}weather?q=${this.$store.state.cities[this.cityNum]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
       }
     },
-    fetchTaqsMobile() {
-       this.fetchTaqs("Mobile");
-    },
+
     setResults (results) {
-      
       this.taqs = results;
-      console.log(this.Tq);
-      this.Tq = results;
-      console.log(this.Tq);
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
-      this.temp = [1,2];
-      this.updateTaqs(this.taqs);
-      this.updateCities(this.query); 
+       this.$store.state.taqs[this.cityNum] = results; 
+      if(this.cityNum == 0){
+        this.updateCities(this.$store.state.query); 
+      }
     },
-
    
-
     dateBuilder () {
       let d = new Date();
       let months = this[this.lang]['months'];
