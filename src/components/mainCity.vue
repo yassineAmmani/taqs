@@ -3,7 +3,7 @@
   <main>
       <div class="search-box"> 
         
-        <tggl  @click="ch" class="toggle" /> {{lang}} {{this.$store.state.lang}}
+        <tggl  @click="ch" class="toggle" /> 
          
         <input 
           type="text" 
