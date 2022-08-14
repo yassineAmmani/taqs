@@ -1,6 +1,6 @@
 <template>
-<div style="display:flex ; ">
-    <div v-for='n in num' :key='n' style=" flex-direction:column; " >
+<div class="container">
+    <div v-for='n in num' :key='n' class="column" >
          <div id="app1" :class="typeof taqs[n].main != 'undefined' && taqs[n].main.temp >25  ? 'warm' : ''">
   <main>
       <div class="search-box">      
@@ -182,6 +182,7 @@ export default {
 <style scoped>
 
 
+
 #app1 {
   background-image: url('../assets/cold.jpg');
   background-size: cover;
@@ -193,6 +194,25 @@ export default {
  background-image: url('../assets/warm.jpg');
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+ 
+  height: 75vw;
+  max-height: 550px;
+}
+.column {
+  overflow-y: hidden;
+  flex: 1;
+  
+  max-height: 100%;
+}
+@media screen and (max-width: 575.98px) {
+  .container{
+    height: 100vw;
+    max-height: 800px;
+  }
+}
 
 main {
   min-height: 100vh;
