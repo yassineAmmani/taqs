@@ -6,6 +6,7 @@ const store = createStore({
     p: 25,
     taqsD: '',
     taqsM:'',
+    lang: 'ar',
     query: 'agadir',
     cities: ['','taza','meknes','fes'],
     taqs: {0: '1',
@@ -19,6 +20,9 @@ const store = createStore({
   mutations: {
     updatePoints(state, payload) {
       state.points = state.points + payload
+    },
+    updateLang(state,payload){
+      state.lang = payload
     },
     updateQuery(state,payload){
       state.query=  payload

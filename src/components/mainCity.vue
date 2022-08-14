@@ -3,7 +3,7 @@
   <main>
       <div class="search-box"> 
         
-        <tggl  @click="ch" class="toggle" />
+        <tggl  @click="ch" class="toggle" /> {{lang}} {{this.$store.state.lang}}
          
         <input 
           type="text" 
@@ -65,7 +65,7 @@ export default {
       api_key: '61944fd995ad0a170d84afd1b7ec348c',
       url_base: 'https://api.openweathermap.org/data/2.5/',
       cold : new URL('../assets/cold.jpg', import.meta.url).href,
-      lang: 'ar',
+      
       taqsD: '',
       taqsM:'',
       checked : false,
@@ -83,11 +83,16 @@ export default {
   setup() {
 
     const store = useStore()
+    const lang = computed( () => store.state.lang)
     var query3 =  computed(() => store.state.query)
     const cities = computed(() => store.state.cities)
     const taqs = computed(() => store.state.taqs)
    const taqs2 = computed(() => store.state.taqs2)
 
+
+    const updateLang = (p) => {
+      store.commit('updateLang', p)
+    }
     const updateQuery = (p) => {
       store.commit('updateQuery', p)
     }
@@ -101,10 +106,12 @@ export default {
       store.commit('updateTaqs', p,)
     }
     return { 
+      lang,
       query3,
       cities,
       taqs,
       taqs2,
+      updateLang,
       updateQuery,
       updateCities,
       updateTaqs,
@@ -114,11 +121,11 @@ export default {
 
   methods: {
    ch(){
-      if (this.lang=='en'){
-        this.lang ='ar';
+      if (this.$store.state.lang=='en'){
+        this.updateLang('ar');
       }
       else  {
-        this.lang = 'en';
+        this.updateLang('en');
       }
     },
 

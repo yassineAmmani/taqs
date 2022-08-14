@@ -4,35 +4,14 @@
          <div id="app1" :class="typeof taqs[n].main != 'undefined' && taqs[n].main.temp >25  ? 'warm' : ''">
   <main>
       <div class="search-box">      
-        <input 
-          type="text" 
-          class="search-bar" 
-          placeholder="Search..."
-          disabled="disabled"
-          
-          @input="event => {this.$store.state.query = event.target.value
-                            this.$store.state.cities[0] = event.target.value
-                            }"
-          @keypress="fetchTaqs" 
-        />
-
-        
+        <label class="search-bar">{{ taqs[n].name }}</label>
       </div>
-     
-
       <div class="weather-wrap" v-if="typeof taqs[n].main != 'undefined'">
-        <div class="location-box">
-          <div class="location">{{ taqs[n].name }}, {{ taqs[n].sys.country }}</div>
-          <div class="date">{{ dateBuilder() }}</div>
-        </div>
-       
-
         <div class="weather-box">
-          
-          <div class="temp">{{ Math.round(taqs[n].main.temp) }}°c 
-            
+          <div class="temp">
+            <label > {{ Math.round( taqs[n].main.temp) }}°c </label> 
           </div>
-          <div class="weather"> {{ taqs[n].weather[0].description }}</div>
+          <div class="weather"> <label ></label>{{ taqs[n].weather[0].description }}</div>
         </div>
       </div>
     </main>
@@ -198,11 +177,12 @@ export default {
   display: flex;
   flex-direction: row;
  
-  height: 75vw;
-  max-height: 550px;
+  height: 50vw;
+  max-height: 300px;
 }
 .column {
   overflow-y: hidden;
+  overflow-x: hidden;
   flex: 1;
   
   max-height: 100%;
@@ -222,17 +202,16 @@ main {
 .search-box {
   width: 100%;
   align-items: center;
-  margin-bottom: 30px;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 .search-box .search-bar {
   display: block;
   width: 80%;
-  margin-right: 15px ;
-  margin-left: 20px;
   padding: 15px;
   
   color: #313131;
-  font-size: 20px;
+  font-size: 28px;
   appearance: none;
   border:none;
   outline: none;
@@ -289,7 +268,7 @@ main {
 }
 .weather-box .weather {
   color: #FFF;
-  font-size: 48px;
+  font-size: 28px;
   font-weight: 700;
   font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
@@ -313,6 +292,9 @@ main {
   font-weight: 300;
   font-style: italic;
   text-align: center;
+}
+.weather{
+  font-size: 10px;
 }
  
 }
