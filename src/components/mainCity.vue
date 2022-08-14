@@ -1,11 +1,8 @@
 <template>
   
-<div id="app1" :class="typeof taqs[this.cityNum].main != 'undefined' && taqs[this.cityNum].main.temp >40  ? 'warm' : ''">
+<div id="app1" :class="typeof taqs[1].main != 'undefined' && taqs[1].main.temp >25  ? 'warm' : ''">
   <main>
-     
-      {{taqs[1]}}
-      <br/>
-      {{cities[this.cityNum]}}
+  
       <div class="search-box"> 
         
         <tggl  @click="ch" class="toggle" />
@@ -20,22 +17,22 @@
           @keypress="fetchTaqs" 
           
         />
-        {{cities}}++ {{this.$store.state.query}} 
+        {{this.$store.state.query}} 
         <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
         
       </div>
      
 
-      <div class="weather-wrap" v-if="typeof taqs[this.cityNum].main != 'undefined'">
+      <div class="weather-wrap" v-if="typeof taqs[1].main != 'undefined'">
         <div class="location-box">
-          <div class="location">{{ taqs[this.cityNum].name }}, {{ taqs[this.cityNum].sys.country }}</div>
+          <div class="location">{{ taqs[1].name }}, {{ taqs[1].sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
         </div>
        
 
         <div class="weather-box">
           
-          <div class="temp">{{ Math.round(taqs[this.cityNum].main.temp) }}°c 
+          <div class="temp">{{ Math.round(taqs[1].main.temp) }}°c 
             
           </div>
           <div class="weather"> {{taqsD}}</div>
@@ -79,6 +76,7 @@ export default {
 
       q:'tokyo',
       cityNum:0,
+      i:0,
       num:[0,1,2,3],
       Tq: {},
       temp:{}
@@ -128,22 +126,32 @@ export default {
     },
 
     fetchTaqsMobile() {
-       this.fetchTaqs("Mobile");
+      let a =this.i;
+      for(a = this.i; a<4 ;a++){
+        this.cityNum = a;
+   
+        this.fetchTaqs("Mobile"); 
+      }
     },
-    fetchTaqs (e) {
+    fetchTaqs (e) { 
+       
       if (e.key == "Enter" || e == "Mobile") {
         fetch(`${this.url_base}weather?q=${this.$store.state.cities[this.cityNum]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
+          console.log(this.cityNum);     
       }
     },
 
     setResults (results) {
+      
       this.taqs = results;
+      
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
        this.$store.state.taqs[this.cityNum] = results; 
+       
       if(this.cityNum == 0){
         this.updateCities(this.$store.state.query); 
       }

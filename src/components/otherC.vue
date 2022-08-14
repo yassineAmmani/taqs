@@ -1,11 +1,47 @@
 <template>
-<div class="container" >
-  
-    <div class="column" v-for="Q in num" :key="Q"  >
-      {{this.cityNum}} {{Q}}
+<div style="display:flex ; ">
+    <div v-for='n in num' :key='n' style=" flex-direction:column; " >
+         <div id="app1" :class="typeof taqs[n].main != 'undefined' && taqs[n].main.temp >40  ? 'warm' : ''">
+  <main>
+      <div class="search-box">      
+        <input 
+          type="text" 
+          class="search-bar" 
+          placeholder="Search..."
+          disabled="disabled"
+          
+          @input="event => {this.$store.state.query = event.target.value
+                            this.$store.state.cities[0] = event.target.value
+                            }"
+          @keypress="fetchTaqs" 
+        />
+
+        
       </div>
+     
+
+      <div class="weather-wrap" v-if="typeof taqs[n].main != 'undefined'">
+        <div class="location-box">
+          <div class="location">{{ taqs[n].name }}, {{ taqs[n].sys.country }}</div>
+          <div class="date">{{ dateBuilder() }}</div>
+        </div>
+       
+
+        <div class="weather-box">
+          
+          <div class="temp">{{ Math.round(taqs[n].main.temp) }}°c 
+            
+          </div>
+          <div class="weather"> {{ taqs[n].weather[0].description }}</div>
+        </div>
+      </div>
+    </main>
+    </div>
+
+    </div>
 </div>
-  
+
+
 <div id="app1" :class="typeof taqs[this.cityNum].main != 'undefined' && taqs[this.cityNum].main.temp >40  ? 'warm' : ''">
   <main>
       <div class="search-box"> 
@@ -81,7 +117,8 @@ export default {
 
       q:'tokyo',
       cityNum:0,
-      num:[0,1,2,3],
+      i:0,
+      num:[2,3,4],
       Tq: {},
       temp:{}
     }
@@ -130,55 +167,49 @@ export default {
     },
 
     fetchTaqsMobile() {
-       this.fetchTaqs("Mobile");
+            this.fetchTaqs("Mobile")  
     },
-    fetchTaqs (e) {
-      if (e.key == "Enter" || e == "Mobile") {
-        fetch(`${this.url_base}weather?q=${this.$store.state.cities[this.cityNum]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
+    fetchTaqs (e) { 
+      let a =this.i;
+      this.cityNum = 0;
+      for(a = this.i; a<4 ;a++){
+           setTimeout( ()=>{
+              if (e.key == "Enter" || e == "Mobile") {
+                  fetch(`${this.url_base}weather?q=${this.$store.state.cities[this.cityNum]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
+                    .then(res => {
+                      return res.json();
+                    }).then(this.setResults);
+                    this.cityNum = this.cityNum + 1;     
+                  }
+           },
+            this.delay(a)
+          )
       }
-    },
 
-    
-
-    fetchTaqs2 (e) {
-      if (e.key == "Enter" || e == "Mobile") {
-        fetch(`${this.url_base}weather?q=${this.$store.state.cities[0]}&units=metric&lang=${this.lang}&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-      }
+      
     },
-    
+    delay(a){
+        if (a == 0) {
+          return 0
+        }else {
+          return a*1000
+        }
+
+    },
 
     setResults (results) {
+      
       this.taqs = results;
+      
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
        this.$store.state.taqs[this.cityNum] = results; 
+       
       if(this.cityNum == 0){
         this.updateCities(this.$store.state.query); 
       }
     },
-
-    setResults2 (results) {
-      
-      this.taqs = results;
-      console.log(this.Tq);
-      this.Tq = results;
-      console.log(this.Tq);
-      this.taqsD = results.weather[0].description;
-      this.taqsM = results.weather[0].main;
-      this.temp = [1,2];
-     
-      if(this.cityNum != 0){
-        this.updateCities(this.query);
-      } 
-    },
    
-
     dateBuilder () {
       let d = new Date();
       let months = this[this.lang]['months'];

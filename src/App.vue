@@ -7,13 +7,20 @@
 
       {{this.$store.state.taqs[0]}}
       <br> 
+      <br>
       {{this.$store.state.taqs[1]}}
+      <br>
       <br>
       {{this.$store.state.taqs[2]}}
       <br>
+      <br>
       {{this.$store.state.taqs[3]}}
       <br>
-  <otherC></otherC>
+      <br>
+      {{this.$store.state.taqs[4]}}
+      <br>
+      <br>
+  <otherC msg="this is the main city taqs components " :apiKey=key ></otherC>
   <mainCity msg="this is the main city taqs components " :apiKey=key />
   
   
