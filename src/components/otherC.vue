@@ -132,6 +132,7 @@ export default {
     setResults (results) {
       
       this.taqs = results;
+ 
       
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
@@ -290,6 +291,7 @@ main {
    main{
         min-height: 40vh;
         max-height: 50vh;
+         padding-left: 8px;
       }
    .search-box {
       width: 95%;
@@ -302,8 +304,8 @@ main {
       font-size: calc(1vw + 1vh + 3vmin);;
     }
     .weather-box .weather {
-      font-size: 28px;
-      font-weight: 550;
+      font-size: 22px;
+      font-weight: 500;
     }
   
 }
