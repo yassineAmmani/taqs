@@ -288,22 +288,22 @@ main {
 
 @media (max-width: 575.98px) {
    main{
-        min-height: 30vh;
+        min-height: 40vh;
         max-height: 50vh;
       }
    .search-box {
       width: 95%;
     }
     .search-box .search-bar {
-      font-size: 25px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 550;
     }
     .weather-box .temp {
       font-size: calc(1vw + 1vh + 3vmin);;
     }
     .weather-box .weather {
-      font-size: 32px;
-      font-weight: 700;
+      font-size: 28px;
+      font-weight: 550;
     }
   
 }
