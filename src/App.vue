@@ -1,7 +1,7 @@
 <template>
 
   
-<div>points: {{ points }}</div>
+<p>points: {{ points }}</p>
     <button @click="updatePoints(1)">add a point</button>
     <button @click="updatePoints(-1)">remove a point</button>
 
@@ -58,4 +58,14 @@ export default {
   width: 200px;
   height: 100%;
 }
+p{
+  background-color: blue;
+}
+
+@media(max-width: 575.98px) {
+    p{
+      background-color: red;
+    }
+}
+
 </style>

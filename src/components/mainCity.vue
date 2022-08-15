@@ -206,6 +206,7 @@ export default {
 
 main {
   min-height: 100vh;
+  
   padding: 25px;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75));
 }
@@ -286,8 +287,12 @@ main {
 }
 
 @media (max-width: 575.98px) {
+  main{
+    min-height: 0vh;
+    max-height: 30vh;
+  }
  .search-box .search-bar {
-   margin: 0px;
+   margin: 25px;
 
  }
 
