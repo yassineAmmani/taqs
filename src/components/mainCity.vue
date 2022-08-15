@@ -15,6 +15,7 @@
           @keypress="fetchTaqs" 
           
         />
+        
         <input type="button"  @click="fetchTaqsMobile" value="search" class="searchMobile"/> 
         
       </div>
@@ -198,6 +199,12 @@ export default {
 }
 #app1.warm {
  background-image: url('../assets/warm.jpg');
+}
+.cloud{
+  left: 20px;
+  height: 48px;
+  width: 48px;
+  background-image: url('../assets/cloud-icon.png');
 }
 
 

@@ -1,9 +1,7 @@
 <template>
 
   
-<p>points: {{ points }}</p>
-    <button @click="updatePoints(1)">add a point</button>
-    <button @click="updatePoints(-1)">remove a point</button>
+
 
   <mainCity msg="this is the main city taqs components " :apiKey=key />
     <otherC msg="this is the main city taqs components " :apiKey=key ></otherC>
