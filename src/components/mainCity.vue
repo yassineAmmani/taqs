@@ -149,7 +149,6 @@ export default {
           )
       }
 
-      
     },
     delay(a){
         if (a == 0) {
@@ -157,19 +156,17 @@ export default {
         }else {
           return a*1000
         }
-
     },
 
     setResults (results) {
       
       this.taqs = results;
-      
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;
-       this.$store.state.taqs[this.cityNum] = results; 
-       
+      this.$store.state.taqs[this.cityNum] = results; 
+      this.taqs[this.cityNum].name= this.taqs[this.cityNum].name.replace(/إقليم/g,"");
       if(this.cityNum == 0){
-        this.updateCities(this.$store.state.query); 
+            this.updateCities(this.$store.state.query); 
       }
     },
    

@@ -132,7 +132,8 @@ export default {
     setResults (results) {
       
       this.taqs = results;
- 
+     
+     
       
       this.taqsD = results.weather[0].description;
       this.taqsM = results.weather[0].main;

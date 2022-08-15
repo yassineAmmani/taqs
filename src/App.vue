@@ -25,7 +25,6 @@ export default {
       logoUrl : new URL('./assets/logo.png', import.meta.url).href,
       cold : new URL('./assets/cold.jpg', import.meta.url).href,
       key : '61944fd995ad0a170d84afd1b7ec348c',
-   
     }
   },
 
