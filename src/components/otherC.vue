@@ -237,20 +237,7 @@ main {
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 16px 0px 16px 0px;
 }
-.location-box .location {
-  color: #FFF;
-  font-size: 32px;
-  font-weight: 500;
-  text-align: center;
-  text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
-}
-.location-box .date {
-  color: #FFF;
-  font-size: 20px;
-  font-weight: 300;
-  font-style: italic;
-  text-align: center;
-}
+
 .weather-box {
   text-align: center;
 }
@@ -298,4 +285,27 @@ main {
 }
  
 }
+
+@media (max-width: 575.98px) {
+   main{
+        min-height: 30vh;
+        max-height: 50vh;
+      }
+   .search-box {
+      width: 95%;
+    }
+    .search-box .search-bar {
+      font-size: 25px;
+      font-weight: 600;
+    }
+    .weather-box .temp {
+      font-size: calc(1vw + 1vh + 3vmin);;
+    }
+    .weather-box .weather {
+      font-size: 32px;
+      font-weight: 700;
+    }
+  
+}
+
 </style>

@@ -287,28 +287,34 @@ main {
 }
 
 @media (max-width: 575.98px) {
-  main{
-    min-height: 0vh;
-    max-height: 30vh;
-  }
- .search-box .search-bar {
-   margin: 25px;
+      main{
+        min-height: 45vh;
+        max-height: 80vh;
+      }
 
- }
-
- .location-box .location {
-  
-  font-size: 22px;
-
-
-}
-.location-box .date {
-  color: #FFF;
-  font-size: 20px;
-  font-weight: 300;
-  font-style: italic;
-  text-align: center;
-}
+      .search-box {
+        width: 100%;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+    .search-box .search-bar {
+      font-size: 28px;
+      margin: 20px;
+    }
+    .location-box .location {
+      font-size: 32px;
+      font-weight: 550;
+    }
+    .location-box .date {
+      font-size: 26px;
+    }
+    .weather-box .temp {
+      font-size: calc(2vw + 2vh + 5vmin);;
+    }
+    .weather-box .weather {
+      font-size: 36px;
+      font-weight: 600;
+    }
  
 }
 </style>
